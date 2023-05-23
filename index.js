@@ -1,8 +1,5 @@
 import {initializeApp} from 'firebase/app'
-import {
-    getFirestore, collection, getDocs,
-    addDoc,deleteDoc,doc, onSnapshot, where,query,orderBy,serverTimestamp
-} from 'firebase/firestore'
+import {getFirestore, collection, getDocs,addDoc,deleteDoc,doc, onSnapshot, where,query,orderBy,serverTimestamp,getDoc} from 'firebase/firestore'
 
 const firebaseConfig = {
     apiKey: "AIzaSyAsmpppFRY7M5qT3IwX2eGLUdRRTQ_pt5s",
@@ -36,7 +33,6 @@ onSnapshot(q,(snapshot)=>{
 // queries 
 
 const addForm = document.querySelector('.add')
-console.log(addForm.title)
 addForm.addEventListener('submit',(e)=>{
     e.preventDefault()
     addDoc(colRef,{
@@ -56,5 +52,13 @@ deleteForm.addEventListener('submit',(e)=>{
     deleteDoc(docRef).then(()=>{
         deleteForm.reset()
     })
+})
+
+// Get a single document
+const docRef = doc(db,'books','iaTX6zoxi9u5HpAcWH6w')
+
+getDoc(docRef).then((doc)=>{
+    console.log("here")
+    console.log(doc.data(),doc.id)
 })
 
