@@ -1,5 +1,5 @@
 import {initializeApp} from 'firebase/app'
-import {getFirestore, collection, getDocs,addDoc,deleteDoc,doc, onSnapshot, where,query,orderBy,serverTimestamp,getDoc} from 'firebase/firestore'
+import {getFirestore, collection, getDocs,addDoc,deleteDoc,doc, onSnapshot, where,query,orderBy,serverTimestamp,getDoc,updateDoc} from 'firebase/firestore'
 
 const firebaseConfig = {
     apiKey: "AIzaSyAsmpppFRY7M5qT3IwX2eGLUdRRTQ_pt5s",
@@ -30,8 +30,7 @@ onSnapshot(q,(snapshot)=>{
     console.log(books)
 })
 
-// queries 
-
+// Used to add data
 const addForm = document.querySelector('.add')
 addForm.addEventListener('submit',(e)=>{
     e.preventDefault()
@@ -45,6 +44,7 @@ addForm.addEventListener('submit',(e)=>{
     })
 })
 
+// Used for deleting data
 const deleteForm = document.querySelector('.delete')
 deleteForm.addEventListener('submit',(e)=>{
     e.preventDefault()
@@ -55,10 +55,25 @@ deleteForm.addEventListener('submit',(e)=>{
 })
 
 // Get a single document
-const docRef = doc(db,'books','iaTX6zoxi9u5HpAcWH6w')
-
+const docRef = doc(db,'books','2KmEe9i5xSM1lPAMS9J3')
 getDoc(docRef).then((doc)=>{
     console.log("here")
     console.log(doc.data(),doc.id)
+})
+
+// Displays new data for a single document after making changes in it 
+onSnapshot(docRef,(doc)=>{
+    console.log(doc.data(),doc.id)
+})
+
+const updateForm = document.querySelector('.update')
+updateForm.addEventListener('submit',(e)=>{
+    e.preventDefault();
+    const docRef = doc(db,'books',updateForm.id.value);
+    updateDoc(docRef,{
+        title:"updated title222"
+    }).then(()=>{
+        updateForm.reset();
+    })
 })
 
